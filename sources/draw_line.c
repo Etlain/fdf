@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/02/26 14:57:20 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/02/26 15:25:36 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft(int keycode, void *param)
 	return (0);
 }
 
-void	line_pos(void **param, t_pos init, t_pos fin)
+void	line_pos(void **param, t_pos init, t_pos fin, int color)
 {
 	int div_x;
 	int i;
@@ -36,12 +36,12 @@ void	line_pos(void **param, t_pos init, t_pos fin)
 		i = 0;
 		while (i < div_x && init.x != fin.x + 1)
 		{
-			mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
+			mlx_pixel_put(param[0], param[1], init.x, init.y, color);
 			init.x++;
 			i++;
 			if (rest >= 10 && init.x < fin.x + 1)
 			{
-				mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
+				mlx_pixel_put(param[0], param[1], init.x, init.y, color);
 				init.x++;
 				rest = rest - 10;
 			}
@@ -57,7 +57,7 @@ void	line_pos(void **param, t_pos init, t_pos fin)
 	}
 }
 
-void	line_neg(void **param, t_pos init, t_pos fin)
+void	line_neg(void **param, t_pos init, t_pos fin, int color)
 {
 	int div_x;
 	int i;
@@ -73,12 +73,12 @@ void	line_neg(void **param, t_pos init, t_pos fin)
 		i = 0;
 		while (i < div_x && fin.x - 1 != init.x)
 		{
-			mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
+			mlx_pixel_put(param[0], param[1], init.x, init.y, color);
 			init.x--;
 			i++;
 			if (rest >= 10 && fin.x - 1 < init.x)
 			{
-				mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
+				mlx_pixel_put(param[0], param[1], init.x, init.y, color);
 				init.x--;
 				rest = rest - 10;
 			}
@@ -94,15 +94,15 @@ void	line_neg(void **param, t_pos init, t_pos fin)
 	}
 }
 
-void	line_x(void **param, t_pos init, t_pos fin)
+void	line_x(void **param, t_pos init, t_pos fin, int color)
 {
 	if (init.x <= fin.x)
-		line_pos(param, init, fin);
+		line_pos(param, init, fin, color);
 	else
-		line_neg(param, init, fin);
+		line_neg(param, init, fin, color);
 }
 
-t_pos	ft_square(void **param, t_pos p, int length)
+t_pos	ft_square(void **param, t_pos p, int length, int color)
 {
 	t_pos init;
 	t_pos fin;
@@ -112,10 +112,10 @@ t_pos	ft_square(void **param, t_pos p, int length)
 	lgt.y = 5 * length;
 	fin.x = p.x - lgt.x;
 	fin.y = p.y + lgt.y;
-	line_x(param, p, fin);
+	line_x(param, p, fin, color);
 	fin.x = p.x + lgt.x;
 	fin.y = p.y + lgt.y;
-	line_x(param, p, fin);
+	line_x(param, p, fin, color);
 	return (lgt);
 }
 /*
