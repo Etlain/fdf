@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 22:33:01 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/02/26 14:37:10 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/03 13:28:57 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct		s_map
 }			t_map;
 
 t_map			*read_map(int fd, t_pos *pos);
-t_pos			ft_square(void **param, t_pos pos, int length);
+t_pos			square(void **param, t_pos pos, t_line *line);
 void			win_map(void **param, t_map *map, t_pos init);
 
 #endif

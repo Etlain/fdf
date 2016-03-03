@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/02/26 15:37:42 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/03 13:49:54 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main()
 	t_pos lgt;
 
 	param = (void **)malloc(sizeof(void *) * 2);
-	fd = open("maps/map2.fdf", O_RDONLY);
+	fd = open("maps/map.fdf", O_RDONLY);
 	//fd = open("example/maps/test", O_RDONLY);
 	map = read_map(fd, &max);
 	param[0] = mlx_init();

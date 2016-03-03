@@ -6,20 +6,13 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/02/26 15:25:36 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/03 14:03:13 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
 #include <fcntl.h>
-int	ft(int keycode, void *param)
-{
-	ft_putchar('\n');
-	ft_putnbr(keycode);
-	return (0);
-}
-
 void	line_pos(void **param, t_pos init, t_pos fin, int color)
 {
 	int div_x;
@@ -102,20 +95,20 @@ void	line_x(void **param, t_pos init, t_pos fin, int color)
 		line_neg(param, init, fin, color);
 }
 
-t_pos	ft_square(void **param, t_pos p, int length, int color)
+t_pos	square(void **param, t_pos p, t_line *line)
 {
 	t_pos init;
 	t_pos fin;
 	t_pos lgt;
 
-	lgt.x = 12 * length;
-	lgt.y = 5 * length;
+	lgt.x = 12 * 1; // (1 dans **param[3] length)
+	lgt.y = 5 * 1;
 	fin.x = p.x - lgt.x;
 	fin.y = p.y + lgt.y;
-	line_x(param, p, fin, color);
+	line_x(param, p, fin, line->color);
 	fin.x = p.x + lgt.x;
 	fin.y = p.y + lgt.y;
-	line_x(param, p, fin, color);
+	line_x(param, p, fin, line->color);
 	return (lgt);
 }
 /*
