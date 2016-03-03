@@ -6,14 +6,14 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/03 13:49:54 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/03 14:12:22 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
 #include <fcntl.h>
-int	main()
+int	main(int argc, char **argv)
 {
 	void	**param;
 	t_pos	max;
@@ -22,8 +22,13 @@ int	main()
 	t_pos init;
 	t_pos lgt;
 
+	if (argc != 2)
+	{
+		ft_putstr("error : number of parameter\n");
+		return (-1);
+	}
 	param = (void **)malloc(sizeof(void *) * 2);
-	fd = open("maps/map.fdf", O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	//fd = open("example/maps/test", O_RDONLY);
 	map = read_map(fd, &max);
 	param[0] = mlx_init();
