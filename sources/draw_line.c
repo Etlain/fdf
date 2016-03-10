@@ -6,210 +6,116 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/03 14:03:13 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/11 00:26:44 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-#include <fcntl.h>
-void	line_pos(void **param, t_pos init, t_pos fin, int color)
+void	init_div(t_2pos *p, t_div *div, int *b_rest, int *p_color)
 {
-	int div_x;
-	int i;
-	int rest;
-	int nbr;
+	int p_y;
 
-	nbr = (((fin.x - init.x ) + 1) * 10) / ((fin.y - init.y) + 1);
-	nbr = nbr - (nbr / 10) * 10;
-	rest = 0;
-	div_x = ((fin.x - init.x) + 1) / ((fin.y - init.y) + 1);
-	while (init.y <= fin.y)
+	p_y = (p->fin.y - p->init.y) + 1;
+	if (p->fin.x >= p->init.x)
 	{
-		i = 0;
-		while (i < div_x && init.x != fin.x + 1)
-		{
-			mlx_pixel_put(param[0], param[1], init.x, init.y, color);
-			init.x++;
-			i++;
-			if (rest >= 10 && init.x < fin.x + 1)
-			{
-				mlx_pixel_put(param[0], param[1], init.x, init.y, color);
-				init.x++;
-				rest = rest - 10;
-			}
-		}
-		rest = rest + nbr;
-		init.y++;
-		/*if (init.y < fin.y)
-		{
-			init.x--;
-			mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
-			init.x++;
-		}*/
+		div->rest = (((p->fin.x - p->init.x ) + 1) * 10) / p_y;
+		div->res = ((p->fin.x - p->init.x) + 1) / p_y;
+		*p_color = p->fin.x - (p->fin.x - p->init.x) / 2;
 	}
-}
-
-void	line_neg(void **param, t_pos init, t_pos fin, int color)
-{
-	int div_x;
-	int i;
-	int rest;
-	int nbr;
-
-	nbr = (((init.x - fin.x ) + 1) * 10) / ((fin.y - init.y) + 1);
-	nbr = nbr - (nbr / 10) * 10;
-	rest = 0;
-	div_x = ((init.x - fin.x) + 1) / ((fin.y - init.y) + 1);
-	while (init.y <= fin.y)
-	{
-		i = 0;
-		while (i < div_x && fin.x - 1 != init.x)
-		{
-			mlx_pixel_put(param[0], param[1], init.x, init.y, color);
-			init.x--;
-			i++;
-			if (rest >= 10 && fin.x - 1 < init.x)
-			{
-				mlx_pixel_put(param[0], param[1], init.x, init.y, color);
-				init.x--;
-				rest = rest - 10;
-			}
-		}
-		rest = rest + nbr;
-		init.y++;
-		/*if (init.y < fin.y)
-		{
-			init.x++;
-			mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
-			init.x--;
-		}*/
-	}
-}
-
-void	line_x(void **param, t_pos init, t_pos fin, int color)
-{
-	if (init.x <= fin.x)
-		line_pos(param, init, fin, color);
 	else
-		line_neg(param, init, fin, color);
+	{
+		div->rest = (((p->init.x - p->fin.x) + 1) * 10) / p_y;
+		div->res = ((p->init.x - p->fin.x) + 1) / p_y;
+		*p_color = p->init.x - (p->init.x - p->fin.x) / 2;
+	}
+	div->rest = div->rest - (div->rest / 10) * 10;
+	*b_rest = 0;
 }
 
-t_pos	square(void **param, t_pos p, t_line *line)
+void	pixel_color(t_2pos pt, t_line *l1, t_line *l2, void **p)
 {
-	t_pos init;
-	t_pos fin;
+	if (pt.init.x <= pt.fin.x) // rajouter diff plus grand 1
+	{
+		if (pt.init.x < *(int*)p[3] && l1->next->color != WHITE)
+			p[4] = (void *)&l1->next->color;
+		else if (pt.init.x >= *(int*)p[3] && l2->next->color != WHITE)
+			p[4] = (void *)&l2->next->color;
+		else
+			p[4] = NULL;
+	}
+	else if (pt.fin.x < pt.init.x) // rajouter diff plus grand 1
+	{
+		if (pt.init.x >= *(int*)p[3] && l1->next->color != WHITE)
+			p[4] = (void *)&l1->next->color;
+		else if (pt.init.x < *(int*)p[3] && l1->color != WHITE)
+			p[4] = (void *)&l1->color;
+		else
+			p[4] = NULL;
+	}
+	if (p[4] != NULL)
+		mlx_pixel_put(p[0], p[1], pt.init.x, pt.init.y, *(int *)p[4]);
+	else
+		mlx_pixel_put(p[0], p[1], pt.init.x, pt.init.y, WHITE);
+}
+
+void	rest_pixel(t_2pos *p, void **param, int *b_rest, int *i)
+{
+	int color;
+
+	color = WHITE;
+	if (p->init.x <= p->fin.x)
+		p->init.x++;
+	else
+		p->init.x--;
+	if (*b_rest >= 10 && p->init.x < p->fin.x + 1)
+	{
+		color = *(int *)param[4];
+		if (param[4] == NULL)
+			color = WHITE;
+		mlx_pixel_put(param[0], param[1], p->init.x, p->init.y, color);
+		if (p->init.x <= p->fin.x)
+			p->init.x++;
+		else
+			p->init.x--;
+		*b_rest = *b_rest - 10;
+	}
+	(*i)++;
+}
+
+void	line(void **param, t_2pos p, t_line *l1, t_line *l2)
+{
+	t_div div;
+	int i;
+	int b_rest;
+	int p_color;
+
+	param[3] = (void *)&p_color;
+	init_div(&p, &div, &b_rest, &p_color);
+	while (p.init.y <= p.fin.y)
+	{
+		i = 0;
+		while (i < div.res && (p.init.x <= p.fin.x || p.init.x > p.fin.x))
+		{
+			pixel_color(p, l1, l2, param);
+			rest_pixel(&p, param, &b_rest, &i);
+		}
+		b_rest = b_rest + div.rest;
+		p.init.y++;
+	}
+}
+
+t_pos	square(void **param, t_2pos p, t_line *l1, t_line *l2)
+{
 	t_pos lgt;
 
-	lgt.x = 12 * 1; // (1 dans **param[3] length)
+	lgt.x = 12 * 1; // (1 dans **param length)
 	lgt.y = 5 * 1;
-	fin.x = p.x - lgt.x;
-	fin.y = p.y + lgt.y;
-	line_x(param, p, fin, line->color);
-	fin.x = p.x + lgt.x;
-	fin.y = p.y + lgt.y;
-	line_x(param, p, fin, line->color);
+	p.fin.x = p.init.x + lgt.x;
+	p.fin.y = p.init.y + lgt.y;
+	line(param, p, l1, l2);
+	p.fin.x = p.init.x - lgt.x;
+	p.fin.y = p.init.y + lgt.y;
+	line(param, p, l1, l2);
 	return (lgt);
 }
-/*
-int	main()
-{
-	void	**param;
-	t_pos	max;
-	int 	fd;
-	t_map	*map;
-	t_pos init;
-	t_pos lgt;
-
-	param = (void **)malloc(sizeof(void *) * 2);
-	fd = open("map.fdf", O_RDONLY);
-	map = read_map(fd, &max);
-	param[0] = mlx_init();
-	param[1] = mlx_new_window(param[0], 300, 300, "fenetre");
-	init.x = 100;
-	init.y = 100;
-	lgt = ft_square(param, init, 1);
-	init.x = init.x + lgt.x;
-	init.y = init.y - lgt.y - 1;
-	lgt = ft_square(param, init, 1);
-	init.x = init.x + lgt.x;
-	init.y = init.y - lgt.y - 1;
-	lgt = ft_square(param, init, 1);
-	mlx_loop(param[0]);
-	return (0);
-}
-*/
-/*
-void	ft_line(void **param, t_pos init, t_pos fin)
-{
-	int div_x;
-	int i;
-	int rest;
-	int nbr;
-
-	nbr = (((fin.x - init.x ) + 1) * 10) / ((fin.y - init.y) + 1);
-	nbr = nbr - (nbr / 10) * 10;
-	rest = 0;
-	div_x = ((fin.x - init.x) + 1) / ((fin.y - init.y) + 1);
-	while (init.y <= fin.y)
-	{
-		i = 0;
-		while (i < div_x && init.x != fin.x + 1)
-		{
-			mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
-			//ft_putstr("\nx : ");
-			//ft_putnbr(init.x);
-			init.x++;
-			i++;
-			if (rest >= 10 && init.x < fin.x + 1)
-			{
-				mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
-				//ft_putstr("\nx : ");
-				//ft_putnbr(init.x);
-				init.x++;
-				rest = rest - 10;
-			}
-		}
-		rest = rest + nbr;
-		init.y++;
-		//ft_putstr("\n\ny : ");
-		//ft_putnbr(init.y);
-		if (init.y < fin.y)
-		{
-			init.x--;
-			//ft_putstr("\nx : ");
-			//ft_putnbr(init.x);
-			mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
-			init.x++;
-		}
-	}
-}*/
-
-/*
-void	line_y(void **param, t_pos init, t_pos fin)
-{
-	int div_y;
-	int i;
-	int rest;
-	int nbr;
-
-	div_y = ((fin.y - init.y) + 1) / ((fin.x - init.x) + 1);
-	while (init.x <= fin.x)
-	{
-		i = 0;
-		while (i < div_y && init.y != fin.y + 1)
-		{
-			mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
-			init.y++;
-			i++;
-		}
-		rest = rest + nbr;
-		init.x++;
-		if (init.x < fin.x)
-		{
-			init.y--;
-			mlx_pixel_put(param[0], param[1], init.x, init.y, 0xFFFFFF);
-			init.y++;
-		}
-	}
-}*/

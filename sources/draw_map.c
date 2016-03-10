@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/03 14:02:46 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/08 23:15:53 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,30 @@
 void	win_map(void **param, t_map *map, t_pos init)
 {
 	t_map *tmp;
-	t_pos pos;
+	t_line *l_next;
+	t_2pos s;
 	t_pos lgt;
 	int i;
 
-	pos.x = init.x;
-	pos.y = init.y;
+	s.init.x = init.x;
+	s.init.y = init.y;
 	tmp = map;
 	i = 1;
 	while (tmp->next != NULL)
 	{
-		ft_putnbr(i);
+		l_next = tmp->next->line;
 		while (tmp->line->next != NULL)
 		{
-			lgt = square(param, pos, tmp->line);
+			lgt = square(param, s, tmp->line, l_next);
+			l_next = l_next->next;
 			tmp->line = tmp->line->next;
-			//if (lgt.y != 0)
-			//{
-				pos.x = pos.x + lgt.x;
-				pos.y = pos.y - lgt.y - 1;
-			//}
+			s.init.x = s.init.x + lgt.x;
+			s.init.y = s.init.y - lgt.y - 1;
 			//break ;
 		}
-		//if (lgt.y == 0)
-		//{
-			pos.x = init.x + lgt.x * i;
-			pos.y = init.y + (lgt.y + 1) * i;
-			i++;
-		//}
+		s.init.x = init.x + lgt.x * i;
+		s.init.y = init.y + (lgt.y + 1) * i;
+		i++;
 		tmp = tmp->next;
 		//break ;
 	}

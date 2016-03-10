@@ -6,13 +6,13 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 21:44:20 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/03 13:50:25 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/05 16:03:18 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static t_line  *add_lst_line(t_line *line, char *tab)
+static t_line  *add_lst_line(t_line *line, char *tab, int *b_color)
 {
 	char **buf;
 	t_line *end;
@@ -22,7 +22,10 @@ static t_line  *add_lst_line(t_line *line, char *tab)
 	tmp = (t_line *)malloc(sizeof(t_line));
 	tmp->height = ft_atoi(buf[0]);
 	if (buf[1] != NULL)
+	{
 		tmp->color = ft_htoi(buf[1]);
+		*b_color = 1;
+	}
 	else
 		tmp->color = 0xFFFFFF;
 	tmp->next = NULL;
@@ -39,7 +42,7 @@ static t_line  *add_lst_line(t_line *line, char *tab)
 	return (line);
 }
 
-static t_map	*add_lst_map(t_map *map, char **tab, int x)
+static t_map	*add_lst_map(t_map *map, char **tab, int x, int *b_color)
 {
 	t_map *tmp;
 	t_map *end;
@@ -50,9 +53,8 @@ static t_map	*add_lst_map(t_map *map, char **tab, int x)
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		tmp->line = add_lst_line(tmp->line, tab[i]);
+		tmp->line = add_lst_line(tmp->line, tab[i], b_color);
 		i++;
-		//if (pos->x < i)
 	}
 	x < i ? x = i : 0;
 	tmp->next = NULL;
@@ -92,20 +94,23 @@ void	put_lst(t_map *map) // a effacer a la fin
 
 t_map	*read_map(int fd, t_pos *pos)
 {
-	t_map *map;
-	char *line;
-	char **tab;
+	t_map	*map;
+	char	*line;
+	char	**tab;
+	int	b_color;
 
 	map = NULL;
+	b_color = 0;
 	pos = (t_pos *)malloc(sizeof(t_pos));
 	pos->y = 0;
 	pos->x = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		tab = ft_strsplit(line, ' ');
-		map = add_lst_map(map, tab, pos->x);
+		map = add_lst_map(map, tab, pos->x, &b_color);
 		free(tab);
 		(pos)->y++;
 	}
+	map->b_color = b_color;
 	return (map);
 }
