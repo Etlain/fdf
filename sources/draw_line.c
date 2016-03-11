@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/11 00:26:44 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/11 02:34:59 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void	line(void **param, t_2pos p, t_line *l1, t_line *l2)
 			pixel_color(p, l1, l2, param);
 			rest_pixel(&p, param, &b_rest, &i);
 		}
+		if (div.res == 0)
+			pixel_color(p, l1, l2, param);
 		b_rest = b_rest + div.rest;
 		p.init.y++;
 	}
@@ -116,6 +118,9 @@ t_pos	square(void **param, t_2pos p, t_line *l1, t_line *l2)
 	line(param, p, l1, l2);
 	p.fin.x = p.init.x - lgt.x;
 	p.fin.y = p.init.y + lgt.y;
+	line(param, p, l1, l2);
+	p.fin.x = p.init.x;
+	p.fin.y = p.init.y + (lgt.y * 2);
 	line(param, p, l1, l2);
 	return (lgt);
 }
