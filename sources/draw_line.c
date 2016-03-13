@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/11 02:34:59 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/13 15:54:41 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	init_div(t_2pos *p, t_div *div, int *b_rest, int *p_color)
 		div->rest = (((p->fin.x - p->init.x ) + 1) * 10) / p_y;
 		div->res = ((p->fin.x - p->init.x) + 1) / p_y;
 		*p_color = p->fin.x - (p->fin.x - p->init.x) / 2;
+		if (p->fin.x == p->init.x)
+			*p_color = p->fin.y - (p->fin.y - p->init.y) / 2;
 	}
 	else
 	{
@@ -35,21 +37,33 @@ void	init_div(t_2pos *p, t_div *div, int *b_rest, int *p_color)
 
 void	pixel_color(t_2pos pt, t_line *l1, t_line *l2, void **p)
 {
-	if (pt.init.x <= pt.fin.x) // rajouter diff plus grand 1
+	ft_putstr("\npixel color : ");
+	if (pt.init.x < pt.fin.x) // rajouter diff plus grand 1
 	{
-		if (pt.init.x < *(int*)p[3] && l1->next->color != WHITE)
+		if (pt.init.x <= *(int*)p[3] && l1->next->color != WHITE)
 			p[4] = (void *)&l1->next->color;
-		else if (pt.init.x >= *(int*)p[3] && l2->next->color != WHITE)
+		else if (pt.init.x > *(int*)p[3] && l2->next->color != WHITE)
 			p[4] = (void *)&l2->next->color;
 		else
 			p[4] = NULL;
+		ft_putstr("pb :");
+		ft_putnbr(l2->next->color);
 	}
-	else if (pt.fin.x < pt.init.x) // rajouter diff plus grand 1
+	else if (pt.init.x > pt.fin.x) // rajouter diff plus grand 1
 	{
 		if (pt.init.x >= *(int*)p[3] && l1->next->color != WHITE)
 			p[4] = (void *)&l1->next->color;
 		else if (pt.init.x < *(int*)p[3] && l1->color != WHITE)
 			p[4] = (void *)&l1->color;
+		else
+			p[4] = NULL;
+	}
+	else if (pt.init.x == pt.fin.x)
+	{
+		if (pt.init.y <= *(int*)p[3] && l1->next->color != WHITE)
+			p[4] = (void *)&l1->next->color;
+		else if (pt.init.y > *(int*)p[3] && l2->color != WHITE)
+			p[4] = (void *)&l2->color;
 		else
 			p[4] = NULL;
 	}
@@ -115,6 +129,7 @@ t_pos	square(void **param, t_2pos p, t_line *l1, t_line *l2)
 	lgt.y = 5 * 1;
 	p.fin.x = p.init.x + lgt.x;
 	p.fin.y = p.init.y + lgt.y;
+	ft_putstr("\ncarre :");
 	line(param, p, l1, l2);
 	p.fin.x = p.init.x - lgt.x;
 	p.fin.y = p.init.y + lgt.y;
