@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 22:33:01 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/09 22:19:26 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/14 15:04:31 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct		s_div
 }			t_div;
 
 t_map			*read_map(int fd, t_pos *pos);
-t_pos			square(void **param, t_2pos p, t_line *l1, t_line *l2);
-void			win_map(void **param, t_map *map, t_pos init);
+t_2pos			square(void **param, t_pos init, t_line *l1, t_line *l2);
+void			win_map(void **p, t_map *map, t_pos init);
 
 #endif
