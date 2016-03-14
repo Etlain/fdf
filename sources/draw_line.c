@@ -6,55 +6,43 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/13 15:54:41 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/14 17:29:23 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void	init_div(t_2pos *p, t_div *div, int *b_rest, int *p_color)
+void	init(t_2pos *p, int *div, int *p_color)
 {
 	int p_y;
 
-	p_y = (p->fin.y - p->init.y) + 1;
+	if (p->fin.y > p->init.y)
+		p_y = (p->fin.y - p->init.y) + 1;
+	else
+		p_y = (p->init.y - p->fin.y) + 1;
 	if (p->fin.x >= p->init.x)
 	{
-		div->rest = (((p->fin.x - p->init.x ) + 1) * 10) / p_y;
-		div->res = ((p->fin.x - p->init.x) + 1) / p_y;
+		*div = ((p->fin.x - p->init.x) + 1) / p_y;
 		*p_color = p->fin.x - (p->fin.x - p->init.x) / 2;
 		if (p->fin.x == p->init.x)
 			*p_color = p->fin.y - (p->fin.y - p->init.y) / 2;
 	}
 	else
 	{
-		div->rest = (((p->init.x - p->fin.x) + 1) * 10) / p_y;
-		div->res = ((p->init.x - p->fin.x) + 1) / p_y;
+		*div = ((p->init.x - p->fin.x) + 1) / p_y;
 		*p_color = p->init.x - (p->init.x - p->fin.x) / 2;
 	}
-	div->rest = div->rest - (div->rest / 10) * 10;
-	*b_rest = 0;
 }
 
 void	pixel_color(t_2pos pt, t_line *l1, t_line *l2, void **p)
 {
-	ft_putstr("\npixel color : ");
-	if (pt.init.x < pt.fin.x) // rajouter diff plus grand 1
+	//ft_putstr("\npixel color :");
+	if (pt.init.y > pt.fin.y) // rajouter diff plus grand 1
 	{
-		if (pt.init.x <= *(int*)p[3] && l1->next->color != WHITE)
-			p[4] = (void *)&l1->next->color;
-		else if (pt.init.x > *(int*)p[3] && l2->next->color != WHITE)
-			p[4] = (void *)&l2->next->color;
-		else
-			p[4] = NULL;
-		ft_putstr("pb :");
-		ft_putnbr(l2->next->color);
-	}
-	else if (pt.init.x > pt.fin.x) // rajouter diff plus grand 1
-	{
-		if (pt.init.x >= *(int*)p[3] && l1->next->color != WHITE)
-			p[4] = (void *)&l1->next->color;
-		else if (pt.init.x < *(int*)p[3] && l1->color != WHITE)
+		if (pt.init.x <= *(int*)p[3] && l1->color != WHITE)
 			p[4] = (void *)&l1->color;
+		else if (pt.init.x > *(int*)p[3] && l1->next->color != WHITE)
+			p[4] = (void *)&l1->next->color;
 		else
 			p[4] = NULL;
 	}
@@ -67,75 +55,82 @@ void	pixel_color(t_2pos pt, t_line *l1, t_line *l2, void **p)
 		else
 			p[4] = NULL;
 	}
+	else if (pt.init.y < pt.fin.y) // rajouter diff plus grand 1
+	{
+		if (pt.init.x <= *(int*)p[3] && l1->next->color != WHITE)
+			p[4] = (void *)&l1->next->color;
+		else if (pt.init.x > *(int*)p[3] && l2->next->color != WHITE)
+			p[4] = (void *)&l2->next->color;
+		else
+			p[4] = NULL;
+	}
 	if (p[4] != NULL)
 		mlx_pixel_put(p[0], p[1], pt.init.x, pt.init.y, *(int *)p[4]);
 	else
 		mlx_pixel_put(p[0], p[1], pt.init.x, pt.init.y, WHITE);
 }
 
-void	rest_pixel(t_2pos *p, void **param, int *b_rest, int *i)
+void	rest_pixel(t_2pos *p, void **param, int *i)
 {
-	int color;
 
-	color = WHITE;
-	if (p->init.x <= p->fin.x)
-		p->init.x++;
-	else
-		p->init.x--;
-	if (*b_rest >= 10 && p->init.x < p->fin.x + 1)
-	{
-		color = *(int *)param[4];
-		if (param[4] == NULL)
-			color = WHITE;
-		mlx_pixel_put(param[0], param[1], p->init.x, p->init.y, color);
-		if (p->init.x <= p->fin.x)
-			p->init.x++;
-		else
-			p->init.x--;
-		*b_rest = *b_rest - 10;
-	}
-	(*i)++;
 }
 
-void	line(void **param, t_2pos p, t_line *l1, t_line *l2)
+t_pos	line(void **param, t_2pos p, t_line *l1, t_line *l2)
 {
-	t_div div;
+	int div;
 	int i;
-	int b_rest;
 	int p_color;
 
 	param[3] = (void *)&p_color;
-	init_div(&p, &div, &b_rest, &p_color);
-	while (p.init.y <= p.fin.y)
+	init(&p, &div, &p_color);
+	while (p.init.y != p.fin.y)
 	{
 		i = 0;
-		while (i < div.res && (p.init.x <= p.fin.x || p.init.x > p.fin.x))
+		while (i < div && (p.init.x <= p.fin.x || p.init.x > p.fin.x))
 		{
 			pixel_color(p, l1, l2, param);
-			rest_pixel(&p, param, &b_rest, &i);
+			if (p.init.x <= p.fin.x)
+				p.init.x++;
+			else
+			p.init.x--;
+			i++;
 		}
-		if (div.res == 0)
+		if (div == 0) // ligne droite y colorée
 			pixel_color(p, l1, l2, param);
-		b_rest = b_rest + div.rest;
-		p.init.y++;
+		if (p.init.y < p.fin.y)
+			p.init.y++;
+		if (p.init.y > p.fin.y)
+			p.init.y--;
 	}
+	return (p.init);
 }
 
-t_pos	square(void **param, t_2pos p, t_line *l1, t_line *l2)
+t_2pos	square(void **param, t_pos init, t_line *l1, t_line *l2)
 {
+	static int i;
+	t_2pos move;
 	t_pos lgt;
+	t_2pos p;
 
+	p.init = init;
+	if (!i)
+		i = 0;
 	lgt.x = 12 * 1; // (1 dans **param length)
 	lgt.y = 5 * 1;
 	p.fin.x = p.init.x + lgt.x;
+	p.fin.y = p.init.y - lgt.y;
+	p.init = line(param, p, l1, l2);
+	p.fin.x = p.init.x + lgt.x;
 	p.fin.y = p.init.y + lgt.y;
-	ft_putstr("\ncarre :");
 	line(param, p, l1, l2);
-	p.fin.x = p.init.x - lgt.x;
-	p.fin.y = p.init.y + lgt.y;
-	line(param, p, l1, l2);
+	move.init = p.init;
 	p.fin.x = p.init.x;
 	p.fin.y = p.init.y + (lgt.y * 2);
-	line(param, p, l1, l2);
-	return (lgt);
+	p.init = line(param, p, l1, l2);
+	i++;
+	if (i == 1)
+		move.fin = p.init;
+	if (l1->next->next == NULL)
+		i = 0;
+	return (move);
 }

@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/13 15:47:41 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/14 15:11:35 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,18 @@ void	win_map(void **p, t_map *map, t_pos init)
 		l_next = tmp->next->line;
 		while (tmp->line->next != NULL)
 		{
-			lgt = square(p, s, tmp->line, l_next);
+			s = square(p, init, tmp->line, l_next);
 			l_next = l_next->next;
 			tmp->line = tmp->line->next;
-			s.init.x = s.init.x + lgt.x;
-			s.init.y = s.init.y - lgt.y - 1;
+			init = s.init;
+			//s.init.x = s.init.x + lgt.x;
+			//s.init.y = s.init.y - lgt.y - 1;
 			//break ;
 		}
-		s.init.x = init.x + lgt.x * i;
-		s.init.y = init.y + (lgt.y + 1) * i;
-		i++;
+		init = s.fin;
+		//s.init.x = init.x + lgt.x * i;
+		//s.init.y = init.y + (lgt.y + 1) * i;
+		//i++;
 		tmp = tmp->next;
 		//break ;
 	}

@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/09 01:27:52 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/14 15:29:18 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	main(int argc, char **argv)
 	map = read_map(fd, &max);
 	param[0] = mlx_init();
 	param[1] = mlx_new_window(param[0], 300, 300, "fenetre");
-	init.x = 100;
-	init.y = 100;
+	init.x = 50;
+	init.y = 200;
 	win_map(param, map, init);
 	mlx_loop(param[0]);
 	return (0);
