@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 21:44:20 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/05 16:03:18 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/23 17:20:11 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,23 @@ void	put_lst(t_map *map) // a effacer a la fin
 	}
 }
 
-t_map	*read_map(int fd, t_pos *pos)
+t_map	*read_map(int fd, t_pos *pos, int *b_color)
 {
 	t_map	*map;
 	char	*line;
 	char	**tab;
-	int	b_color;
 
 	map = NULL;
-	b_color = 0;
+	*b_color = 0;
 	pos = (t_pos *)malloc(sizeof(t_pos));
 	pos->y = 0;
 	pos->x = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		tab = ft_strsplit(line, ' ');
-		map = add_lst_map(map, tab, pos->x, &b_color);
+		map = add_lst_map(map, tab, pos->x, b_color);
 		free(tab);
 		(pos)->y++;
 	}
-	map->b_color = b_color;
 	return (map);
 }
