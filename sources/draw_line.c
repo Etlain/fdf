@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/31 03:18:21 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/31 02:34:12 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	add_rest(double div)
 	return (nbr_x);
 }
 
-t_pos	line(void **param, t_2pos p, t_line *l1, t_line *l2)
+void	line(void **param, t_2pos p, t_line *l1, t_line *l2)
 {
 	double div;
 	int i;
@@ -131,5 +131,4 @@ t_pos	line(void **param, t_2pos p, t_line *l1, t_line *l2)
 		p.init.y < p.fin.y ? p.init.y++ : p.init.y--;
 	}
 	add_rest(0);
-	return (p.init);
 }

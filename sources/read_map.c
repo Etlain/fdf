@@ -6,13 +6,13 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 21:44:20 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/23 17:20:11 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/31 03:42:37 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static t_line  *add_lst_line(t_line *line, char *tab, int *b_color)
+static t_line  *add_lst_line(t_line *line, char *tab/*, int *b_color*/)
 {
 	char **buf;
 	t_line *end;
@@ -24,7 +24,7 @@ static t_line  *add_lst_line(t_line *line, char *tab, int *b_color)
 	if (buf[1] != NULL)
 	{
 		tmp->color = ft_htoi(buf[1]);
-		*b_color = 1;
+		//*b_color = 1;
 	}
 	else
 		tmp->color = 0xFFFFFF;
@@ -42,7 +42,7 @@ static t_line  *add_lst_line(t_line *line, char *tab, int *b_color)
 	return (line);
 }
 
-static t_map	*add_lst_map(t_map *map, char **tab, int x, int *b_color)
+static t_map	*add_lst_map(t_map *map, char **tab, int x/*, int *b_color*/)
 {
 	t_map *tmp;
 	t_map *end;
@@ -53,7 +53,7 @@ static t_map	*add_lst_map(t_map *map, char **tab, int x, int *b_color)
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		tmp->line = add_lst_line(tmp->line, tab[i], b_color);
+		tmp->line = add_lst_line(tmp->line, tab[i]/*, b_color*/);
 		i++;
 	}
 	x < i ? x = i : 0;
@@ -92,21 +92,22 @@ void	put_lst(t_map *map) // a effacer a la fin
 	}
 }
 
-t_map	*read_map(int fd, t_pos *pos, int *b_color)
+t_map	*read_map(int fd/*, t_pos *pos, int *b_color*/)
 {
 	t_map	*map;
+	t_pos	*pos;
 	char	*line;
 	char	**tab;
 
 	map = NULL;
-	*b_color = 0;
+	//*b_color = 0;
 	pos = (t_pos *)malloc(sizeof(t_pos));
 	pos->y = 0;
 	pos->x = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		tab = ft_strsplit(line, ' ');
-		map = add_lst_map(map, tab, pos->x, b_color);
+		map = add_lst_map(map, tab, pos->x/*, b_color*/);
 		free(tab);
 		(pos)->y++;
 	}

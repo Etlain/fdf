@@ -6,18 +6,11 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/30 23:40:38 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/31 03:37:00 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-/*int	ft(int keycode, void *param)
-{
-	ft_putchar('\n');
-	ft_putnbr(keycode);
-	return (0);
-}*/
 
 t_pos	square(void **param, t_pos init, t_line *l1, t_line *l2)
 {
