@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/31 03:46:47 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/31 22:05:57 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,19 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-int	val_key(int keycode, void *param)
+int	val_key(int keycode, t_pos *init)
 {
 	ft_putstr("\nkeycode :");
 	ft_putnbr(keycode);
 	if (keycode == 53)
 		exit(0);
-	return (0);
+	if (keycode == 123)
+		init->x = init->x - 10;
+	if (keycode == 124)
+		init->x = init->x + 10;
+	/*ft_putstr("\ninit.x :");
+	ft_putnbr(init->x);*/
+	return (1);
 }
 
 void	window()
@@ -51,7 +57,8 @@ int	main(int argc, char **argv)
 	init.x = 200;
 	init.y = 200;
 	win_map(param, map, init);
-	mlx_key_hook(param[1], val_key, 0);
+	mlx_key_hook(param[1], val_key, (void *)&init);
+	printf("\ninit.x : %d", init.x);
 	mlx_loop(param[0]);
 	return (0);
 }
