@@ -6,21 +6,19 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/30 22:15:05 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/03/31 03:18:21 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-#include <math.h>
-#include <stdio.h>
 void	init(t_2pos *p, double *div, int *p_color, int *b_x)
 {
 	int p_y;
 	int p_x;
 
-	p_y = abs(p->fin.y - p->init.y) + 1;
-	p_x = abs(p->fin.x - p->init.x) + 1;
+	p_y = ft_abs(p->fin.y - p->init.y) + 1;
+	p_x = ft_abs(p->fin.x - p->init.x) + 1;
 	*b_x = 0;
 	if (p_x < p_y)
 		*b_x = 1;
