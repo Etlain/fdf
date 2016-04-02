@@ -6,7 +6,7 @@
 #    By: mmouhssi <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/02 09:06:02 by mmouhssi          #+#    #+#              #
-#*   Updated: 2016/02/26 15:02:32 by mmouhssi         ###   ########.fr       *#
+#*   Updated: 2016/04/02 22:43:21 by mmouhssi         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = fdf
 
 LIB = libft/libft.a
 
-SRC = main.c draw_line.c draw_map.c read_map.c
+SRC = main.c draw_line.c draw_map.c read_map.c hook.c draw.c pixel_color.c
 
 PATH_SRC = sources/
 

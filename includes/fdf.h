@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 22:33:01 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 22:20:17 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/02 22:41:45 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FDF_H
 # include "../libft/libft.h"
 # include "../minilibx_macos/mlx.h"
+# include <fcntl.h>
 # define WHITE 0xFFFFFF
 # define H 800
 # define W 800
@@ -48,8 +49,13 @@ typedef struct		s_env
 	int		*zoom;
 }			t_env;
 
-t_map			*read_map(int fd/*, t_pos *pos, int *b_color*/);
+t_map			*read_map(int fd);
 void			line(void **param, t_2pos p, t_line *l1, t_line *l2);
 void			win_map(void **p, t_map *map, t_pos init);
+void			redraw(t_env *env);
+void			draw_fdf(t_map *map, void **param);
+int			expose_hook(t_env *env);
+int			key_hook(int keycode, t_env *env);
+void			pixel_c(t_2pos pt, t_line *l1, t_line *l2, void **p);
 
 #endif
