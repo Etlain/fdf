@@ -6,11 +6,22 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 21:44:20 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 02:36:46 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/02 23:33:04 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+
+static void	read_error(int *x, int i)
+{
+	if (*x == 0)
+		*x = i;
+	else if (*x != i)
+	{
+		ft_putstr("error : number value in line\n");
+		exit (-1);
+	}
+}
 
 static t_line  *add_lst_line(t_line *line, char *tab)
 {
@@ -39,7 +50,7 @@ static t_line  *add_lst_line(t_line *line, char *tab)
 	return (line);
 }
 
-static t_map	*add_lst_map(t_map *map, char **tab, int x)
+static t_map	*add_lst_map(t_map *map, char **tab, int *x)
 {
 	t_map *tmp;
 	t_map *end;
@@ -53,7 +64,7 @@ static t_map	*add_lst_map(t_map *map, char **tab, int x)
 		tmp->line = add_lst_line(tmp->line, tab[i]);
 		i++;
 	}
-	x < i ? x = i : 0;
+	read_error(x, i);
 	tmp->next = NULL;
 	if (map)
 	{
@@ -95,17 +106,23 @@ t_map	*read_map(int fd)
 	t_pos	*pos;
 	char	*line;
 	char	**tab;
+	int	gnl;
 
 	map = NULL;
 	pos = (t_pos *)malloc(sizeof(t_pos));
 	pos->y = 0;
 	pos->x = 0;
-	while (get_next_line(fd, &line) > 0)
+	while ((gnl = get_next_line(fd, &line)) > 0)
 	{
 		tab = ft_strsplit(line, ' ');
-		map = add_lst_map(map, tab, pos->x);
-		free(tab);
+		map = add_lst_map(map, tab, &pos->x);
+		ft_free_tab(tab);
 		(pos)->y++;
+	}
+	if (gnl < 0 || map == NULL)
+	{
+		ft_putstr("error : read file\n");
+		exit(-1);
 	}
 	return (map);
 }

@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 22:32:58 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/02 23:32:13 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,13 @@ int	main(int argc, char **argv)
 	}
 	param = (void **)malloc(sizeof(void *) * 5);
 	param[5] = NULL;
-	fd = open(argv[1], O_RDONLY);
+	if ((fd = open(argv[1], O_RDONLY)) < 0)
+	{
+		ft_putstr("error : open file\n");
+		return (-1);
+	}
 	map = read_map(fd);
 	draw_fdf(map, param);
+	close(fd);
 	return (0);
 }
