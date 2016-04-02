@@ -6,13 +6,13 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 03:55:35 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/02 22:22:34 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void	draw(t_2pos *p, int zoom, int height, int b)
+static void	pos_fin(t_2pos *p, int zoom, int height, int b)
 {
 	t_pos lgt;
 
@@ -33,63 +33,68 @@ void	draw(t_2pos *p, int zoom, int height, int b)
 		p->fin.y = p->init.y + lgt.y;
 }
 
-t_pos	square(void **param, t_pos init, t_line *l1, t_line *l2)
+static t_pos	square(void **param, t_pos init, t_line *l1, t_line *l2)
 {
-	t_pos lgt;
-	t_2pos p;
-	int height;
-	//int zoom;
+	t_2pos 	p;
+	t_pos 	lgt;
+	int 	height;
 
-	//if ()
 	p.init = init;
 	if (l1->height >= l1->next->height)
 		height = l1->next->height - l1->height;
 	else
 		height = l1->next->height - l1->height;
-	/*lgt.x = X * 1; // (1 dans **param length p[2])
-	lgt.y = Y * 1 * (height + 1);
-	p.fin.x = p.init.x + lgt.x;
-	p.fin.y = p.init.y - lgt.y;*/
-	draw(&p, *(int *)param[2], height, 1);
+	pos_fin(&p, *(int *)param[2], height, 1);
 	line(param, p, l1, l2);
 	p.init = p.fin;
 	if (l1->next->height > l2->next->height)
 		height = l1->next->height - l2->next->height;
 	else
 		height = l1->next->height - l2->next->height;
-	/*lgt.y = Y * 1 * (height + 1);
-	p.fin.x = p.init.x + lgt.x;
-	p.fin.y = p.init.y + lgt.y;*/
-	draw(&p, *(int *)param[2], height, 2);
+	pos_fin(&p, *(int *)param[2], height, 2);
 	line(param, p, l1, l2);
 	return (p.init);
 }
 
-void	win_map(void **p, t_map *map, t_pos init)
+static	void	init_size(void **p, t_pos *size)
 {
-	t_map *tmp;
-	t_line *l_next;
-	t_line *l;
-	int i;
-	int zoom;
+	if (*(int *)p[2] > 0)
+	{
+		size->x = *(int *)p[2] * X;
+		size->y = *(int *)p[2] * Y;
+	}
+	else
+	{
+		size->x = 1;
+		size->y = 1;
+	}
+}
+
+void		win_map(void **p, t_map *map, t_pos init)
+{
+	t_map	*tmp;
+	t_line	*l_next;
+	t_line	*l;
+	t_pos	size;
+	int	i;
 
 	tmp = map;
-	zoom = *(int *)p[2];
-	while (tmp->next != NULL)
+	init_size(p, &size);
+	while (tmp->next != NULL && init.y <= H && init.y >= 0)
 	{
 		l = tmp->line;
 		l_next = tmp->next->line;
 		i = 0;
-		while (l->next != NULL)
+		while (l->next != NULL && init.x <= W)
 		{
 			init = square(p, init, l, l_next);
 			l_next = l_next->next;
 			l = l->next;
 			i++;
 		}
-		init.x = init.x - X * zoom * (i - 1);
-		init.y = init.y + Y * zoom * (i + 1) + Y * zoom * (l->height);
+		init.x = init.x - size.x * (i - 1);
+		init.y = init.y + size.y * (i + 1) + size.y * (l->height);
 		tmp = tmp->next;
-		init.y = init.y - Y * zoom * (tmp->line->height);
+		init.y = init.y - size.y * (tmp->line->height);
 	}
 }
