@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 22:33:01 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/31 03:43:08 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/02 02:24:04 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 # include "../libft/libft.h"
 # include "../minilibx_macos/mlx.h"
 # define WHITE 0xFFFFFF
+# define HEIGHT 800
+# define WIDTH 800
+# define X 8 //11
+# define Y 4 //5
 
 typedef struct		s_line
 {
@@ -36,11 +40,12 @@ typedef struct		s_2pos
 	t_pos		fin;
 }			t_2pos;
 
-typedef struct		s_div
+typedef struct		s_env
 {
-	int		res;
-	int		rest;
-}			t_div;
+	void		**p;
+	t_map		*map;
+	t_pos		*init;
+}			t_env;
 
 t_map			*read_map(int fd/*, t_pos *pos, int *b_color*/);
 void			line(void **param, t_2pos p, t_line *l1, t_line *l2);

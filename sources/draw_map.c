@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/31 03:37:00 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/02 02:10:08 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_pos	square(void **param, t_pos init, t_line *l1, t_line *l2)
 		height = l1->next->height - l1->height;
 	else
 		height = l1->next->height - l1->height;
-	lgt.x = 11 * 1; // (1 dans **param length p[2])
-	lgt.y = 5 * 1 * (height + 1);
+	lgt.x = X * 1; // (1 dans **param length p[2])
+	lgt.y = Y * 1 * (height + 1);
 	p.fin.x = p.init.x + lgt.x;
 	p.fin.y = p.init.y - lgt.y;
 	line(param, p, l1, l2);
@@ -33,7 +33,7 @@ t_pos	square(void **param, t_pos init, t_line *l1, t_line *l2)
 		height = l1->next->height - l2->next->height;
 	else
 		height = l1->next->height - l2->next->height;
-	lgt.y = 5 * 1 * (height + 1);
+	lgt.y = Y * 1 * (height + 1);
 	p.fin.x = p.init.x + lgt.x;
 	p.fin.y = p.init.y + lgt.y;
 	line(param, p, l1, l2);
@@ -60,9 +60,9 @@ void	win_map(void **p, t_map *map, t_pos init)
 			l = l->next;
 			i++;
 		}
-		init.x = init.x - 11 * 1 * (i - 1);
-		init.y = init.y + 5 * 1 * (i + 1) + 5 * 1 * (l->height);
+		init.x = init.x - X * 1 * (i - 1);
+		init.y = init.y + Y * 1 * (i + 1) + Y * 1 * (l->height);
 		tmp = tmp->next;
-		init.y = init.y - 5 * 1 * (tmp->line->height);
+		init.y = init.y - Y * 1 * (tmp->line->height);
 	}
 }
