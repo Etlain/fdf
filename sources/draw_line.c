@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/03/31 02:34:12 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/02 02:52:16 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,10 @@ void	line(void **param, t_2pos p, t_line *l1, t_line *l2)
 	init(&p, &div, &p_color, &b_x);
 	while (p.init.y != p.fin.y)
 	{
+		if (p.init.y > HEIGHT && p.fin.y > HEIGHT)
+			break ;
+		if (p.init.x > WIDTH && p.fin.x > WIDTH)
+			break ;
 		if (b_x == 1)
 		{
 			if (add_rest(div) == 1 && p.init.x != p.fin.x)

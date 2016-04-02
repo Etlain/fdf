@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 02:41:42 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/02 03:59:09 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,19 @@ int	key_hook(int keycode, t_env *env)
 	ft_putnbr(keycode);
 	if (keycode == 53)
 		exit(0);
+	if (keycode == 116 && *(int *)env->zoom > 0)
+		*(int *)env->zoom = *(int *)env->zoom - 1;
+	if (keycode == 121 && *(int *)env->zoom < 100)
+		*(int *)env->zoom = *(int *)env->zoom + 1;
 	if (keycode == 123)
-		env->init->x = env->init->x - 10;
-	if (keycode == 124)
 		env->init->x = env->init->x + 10;
+	if (keycode == 124)
+		env->init->x = env->init->x - 10;
 	if (keycode == 125)
-		env->init->y = env->init->y + 10;
-	if (keycode == 126)
 		env->init->y = env->init->y - 10;
+	if (keycode == 126)
+		env->init->y = env->init->y + 10;
+	mlx_do_key_autorepeaton(env->p[0]);
 	redraw(env);
 	return (1);
 }
@@ -54,12 +59,16 @@ void	draw_fdf(t_map *map, void **param)
 {
 	t_pos	init;
 	t_env	env;
+	int	zoom;
 
+	zoom = 4;
 	param[0] = mlx_init();
 	param[1] = mlx_new_window(param[0], WIDTH, HEIGHT, "FDF");
+	param[2] = &zoom;
 	env.map = map;
 	env.p = param;
 	env.init = &init;
+	env.zoom = &zoom;
 	init.x = 200;
 	init.y = 200;
 	mlx_key_hook(param[1], key_hook, (void *)&env);
