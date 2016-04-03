@@ -1,0 +1,13 @@
+fleche deplacement
+
+gauche		123
+droite		124
+haut		125
+bas		126
+
+zoom
+
+page up		116
+page down	121
+
+eventullement rotation et palette de couleur
