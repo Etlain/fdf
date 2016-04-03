@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_put_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/03 14:54:23 by mmouhssi         ###   ########.fr       */
+/*   Created: 2016/04/03 14:36:13 by mmouhssi          #+#    #+#             */
+/*   Updated: 2016/04/03 14:43:43 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+void	ft_put_error(char *str)
 {
-	t_map	*map;
-	void	**param;
-	int 	fd;
+	int i;
+	char c;
 
-	if (argc != 2)
+	c = '\n';
+	i = 0;
+	while (str[i] != '\0')
 	{
-		ft_put_error("error : number of parameter");
-		return (-1);
+		write(2, &str[i], 1);
+		i++;
 	}
-	param = (void **)malloc(sizeof(void *) * 5);
-	param[5] = NULL;
-	if ((fd = open(argv[1], O_RDONLY)) < 0)
-	{
-		ft_put_error("error : open file");
-		return (-1);
-	}
-	map = read_map(fd);
-	close(fd);
-	draw_fdf(map, param);
-	return (0);
+	write(2, &c, 1);
 }

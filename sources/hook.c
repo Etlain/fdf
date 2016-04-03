@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 22:33:44 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/03 15:44:11 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ int	key_hook(int keycode, t_env *env)
 	void	*img;
 
 	if (keycode == 53)
+	{
+		mlx_clear_window(env->p[0], env->p[1]);
+		free_lst(env->map);
 		exit(0);
+	}
 	if (keycode == 116 && *(int *)env->zoom < 100)
 		*(int *)env->zoom = *(int *)env->zoom + 1;
 	if (keycode == 121 && *(int *)env->zoom > 0)

@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 22:33:01 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 22:41:45 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/03 15:40:55 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ void			draw_fdf(t_map *map, void **param);
 int			expose_hook(t_env *env);
 int			key_hook(int keycode, t_env *env);
 void			pixel_c(t_2pos pt, t_line *l1, t_line *l2, void **p);
-
+void			free_lst(t_map *map);
 #endif

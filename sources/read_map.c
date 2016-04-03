@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 21:44:20 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 23:33:04 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/03 15:18:38 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	read_error(int *x, int i)
 		*x = i;
 	else if (*x != i)
 	{
-		ft_putstr("error : number value in line\n");
+		ft_put_error("error : number value in line");
 		exit (-1);
 	}
 }
@@ -100,29 +100,49 @@ void	put_lst(t_map *map) // a effacer a la fin
 	}
 }
 
+void	free_lst(t_map *map)
+{
+	t_map *tmp;
+	t_line *line;
+
+	tmp = map;
+	while (tmp != NULL)
+	{
+		line = tmp->line;
+		while (line != NULL)
+		{
+			line = line->next;
+			free(tmp->line);
+			tmp->line = line;
+			
+		}
+		tmp = tmp->next;
+		free(map);
+		map = tmp;
+	}
+}
+
 t_map	*read_map(int fd)
 {
 	t_map	*map;
-	t_pos	*pos;
+	int	x;
 	char	*line;
 	char	**tab;
 	int	gnl;
 
 	map = NULL;
-	pos = (t_pos *)malloc(sizeof(t_pos));
-	pos->y = 0;
-	pos->x = 0;
+	x = 0;
 	while ((gnl = get_next_line(fd, &line)) > 0)
 	{
 		tab = ft_strsplit(line, ' ');
-		map = add_lst_map(map, tab, &pos->x);
+		map = add_lst_map(map, tab, &x);
 		ft_free_tab(tab);
-		(pos)->y++;
 	}
 	if (gnl < 0 || map == NULL)
 	{
-		ft_putstr("error : read file\n");
+		ft_put_error("error : read file");
 		exit(-1);
 	}
+	free(line);
 	return (map);
 }
