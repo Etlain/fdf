@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/03 14:54:23 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/06 17:40:32 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	main(int argc, char **argv)
 		ft_put_error("error : number of parameter");
 		return (-1);
 	}
-	param = (void **)malloc(sizeof(void *) * 5);
-	param[5] = NULL;
+	param = (void **)malloc(sizeof(void *) * 6);
+	param[6] = NULL;
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 	{
 		ft_put_error("error : open file");

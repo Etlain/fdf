@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 22:35:27 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/06 18:14:01 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		win_map(void **p, t_map *map, t_pos init)
 
 	tmp = map;
 	init_size(p, &size);
-	while (tmp->next != NULL && init.y <= H && init.y >= 0)
+	while (tmp->next != NULL)// && init.y <= H && init.y >= 0)
 	{
 		l = tmp->line;
 		l_next = tmp->next->line;

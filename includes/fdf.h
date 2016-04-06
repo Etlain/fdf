@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 22:33:01 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/03 15:40:55 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/06 19:16:03 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ void			line(void **param, t_2pos p, t_line *l1, t_line *l2);
 void			win_map(void **p, t_map *map, t_pos init);
 void			redraw(t_env *env);
 void			draw_fdf(t_map *map, void **param);
-int			expose_hook(t_env *env);
-int			key_hook(int keycode, t_env *env);
+int				expose_hook(t_env *env);
+int				key_hook(int keycode, t_env *env);
+int				mouse_hook(int button, int x, int y, t_env *param);
+int				close_hook(void *param);
 void			pixel_c(t_2pos pt, t_line *l1, t_line *l2, void **p);
 void			free_lst(t_map *map);
 #endif
