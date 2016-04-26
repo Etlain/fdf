@@ -6,13 +6,13 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/06 18:14:01 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/26 17:45:19 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static void	pos_fin(t_2pos *p, int zoom, int height, int b)
+static void		pos_fin(t_2pos *p, int zoom, int height, int b)
 {
 	t_pos lgt;
 
@@ -35,9 +35,8 @@ static void	pos_fin(t_2pos *p, int zoom, int height, int b)
 
 static t_pos	square(void **param, t_pos init, t_line *l1, t_line *l2)
 {
-	t_2pos 	p;
-	t_pos 	lgt;
-	int 	height;
+	t_2pos	p;
+	int		height;
 
 	p.init = init;
 	if (l1->height >= l1->next->height)
@@ -56,7 +55,7 @@ static t_pos	square(void **param, t_pos init, t_line *l1, t_line *l2)
 	return (p.init);
 }
 
-static	void	init_size(void **p, t_pos *size)
+static void		init_size(void **p, t_pos *size)
 {
 	if (*(int *)p[2] > 0)
 	{
@@ -70,17 +69,17 @@ static	void	init_size(void **p, t_pos *size)
 	}
 }
 
-void		win_map(void **p, t_map *map, t_pos init)
+void			win_map(void **p, t_map *map, t_pos init)
 {
 	t_map	*tmp;
 	t_line	*l_next;
 	t_line	*l;
 	t_pos	size;
-	int	i;
+	int		i;
 
 	tmp = map;
 	init_size(p, &size);
-	while (tmp->next != NULL)// && init.y <= H && init.y >= 0)
+	while (tmp->next != NULL)
 	{
 		l = tmp->line;
 		l_next = tmp->next->line;

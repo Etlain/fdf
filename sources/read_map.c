@@ -6,32 +6,23 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 21:44:20 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/03 15:18:38 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/26 22:52:37 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static void	read_error(int *x, int i)
+static t_line	*add_lst_line(t_line *line, char *tab)
 {
-	if (*x == 0)
-		*x = i;
-	else if (*x != i)
-	{
-		ft_put_error("error : number value in line");
-		exit (-1);
-	}
-}
-
-static t_line  *add_lst_line(t_line *line, char *tab)
-{
-	char **buf;
-	t_line *end;
-	t_line *tmp;
+	char	**buf;
+	t_line	*end;
+	t_line	*tmp;
 
 	buf = ft_strsplit(tab, ',');
 	tmp = (t_line *)malloc(sizeof(t_line));
+	error_heigth(buf[0]);
 	tmp->height = ft_atoi(buf[0]);
+	buf[1] != NULL ? error_color(buf[1]) : 0;
 	if (buf[1] != NULL)
 		tmp->color = ft_htoi(buf[1]);
 	else
@@ -52,9 +43,9 @@ static t_line  *add_lst_line(t_line *line, char *tab)
 
 static t_map	*add_lst_map(t_map *map, char **tab, int *x)
 {
-	t_map *tmp;
-	t_map *end;
-	int i;
+	t_map	*tmp;
+	t_map	*end;
+	int		i;
 
 	tmp = (t_map*)malloc(sizeof(t_map));
 	tmp->line = NULL;
@@ -64,7 +55,7 @@ static t_map	*add_lst_map(t_map *map, char **tab, int *x)
 		tmp->line = add_lst_line(tmp->line, tab[i]);
 		i++;
 	}
-	read_error(x, i);
+	error_nbval(x, i);
 	tmp->next = NULL;
 	if (map)
 	{
@@ -78,10 +69,10 @@ static t_map	*add_lst_map(t_map *map, char **tab, int *x)
 	return (map);
 }
 
-void	put_lst(t_map *map) // a effacer a la fin
+void			put_lst(t_map *map) // a effacer a la fin
 {
-	t_map *tmp;
-	t_line *line;
+	t_map	*tmp;
+	t_line	*line;
 
 	tmp = map;
 	while (tmp != NULL)
@@ -100,10 +91,10 @@ void	put_lst(t_map *map) // a effacer a la fin
 	}
 }
 
-void	free_lst(t_map *map)
+void			free_lst(t_map *map)
 {
-	t_map *tmp;
-	t_line *line;
+	t_map	*tmp;
+	t_line	*line;
 
 	tmp = map;
 	while (tmp != NULL)
@@ -113,8 +104,7 @@ void	free_lst(t_map *map)
 		{
 			line = line->next;
 			free(tmp->line);
-			tmp->line = line;
-			
+			tmp->line = line;	
 		}
 		tmp = tmp->next;
 		free(map);
@@ -122,13 +112,13 @@ void	free_lst(t_map *map)
 	}
 }
 
-t_map	*read_map(int fd)
+t_map			*read_map(int fd)
 {
 	t_map	*map;
-	int	x;
+	int		x;
 	char	*line;
 	char	**tab;
-	int	gnl;
+	int		gnl;
 
 	map = NULL;
 	x = 0;

@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/02 22:42:38 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/26 17:31:21 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	init(t_2pos *p, double *div, int *p_color, int *b_x)
 static int	rest(double div)
 {
 	static double	rest;
-	int 		nbr_x;
+	int				nbr_x;
 
 	nbr_x = div;
 	if (div == 0)
@@ -77,9 +77,9 @@ static void	condition(t_2pos *p, int *i, int b_x)
 void		line(void **param, t_2pos p, t_line *l1, t_line *l2)
 {
 	double	div;
-	int 	i;
-	int 	b_x;
-	int 	r_div;
+	int		i;
+	int		b_x;
+	int		r_div;
 
 	init(&p, &div, (int *)param[3], &b_x);
 	while (p.init.y != p.fin.y)

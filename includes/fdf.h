@@ -6,58 +6,63 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/06 22:33:01 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/06 19:16:03 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/26 22:08:39 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 # include "../libft/libft.h"
-# include "../minilibx_macos/mlx.h"
+//# include "../minilibx_macos/mlx.h"
+# include <mlx.h>
 # include <fcntl.h>
 # define WHITE 0xFFFFFF
 # define H 800
 # define W 800
-# define X  2 //11 2
-# define Y  1 //5  1
+# define X  2
+# define Y  1
 
 typedef struct		s_line
 {
-	int		height;
-	int		color;
+	int				height;
+	int				color;
 	struct s_line	*next;
-}			t_line;
+}					t_line;
 
 typedef struct		s_map
 {
-	t_line		*line;
-	int		length;
+	t_line			*line;
+	int				length;
 	struct s_map	*next;
-}			t_map;
+}					t_map;
 
 typedef struct		s_2pos
 {
-	t_pos		init;
-	t_pos		fin;
-}			t_2pos;
+	t_pos			init;
+	t_pos			fin;
+}					t_2pos;
 
 typedef struct		s_env
 {
-	void		**p;
-	t_map		*map;
-	t_pos		*init;
-	int		*zoom;
-}			t_env;
+	void			**p;
+	t_map			*map;
+	t_pos			*init;
+	int				*zoom;
+}					t_env;
 
-t_map			*read_map(int fd);
-void			line(void **param, t_2pos p, t_line *l1, t_line *l2);
-void			win_map(void **p, t_map *map, t_pos init);
-void			redraw(t_env *env);
-void			draw_fdf(t_map *map, void **param);
-int				expose_hook(t_env *env);
-int				key_hook(int keycode, t_env *env);
-int				mouse_hook(int button, int x, int y, t_env *param);
-int				close_hook(void *param);
-void			pixel_c(t_2pos pt, t_line *l1, t_line *l2, void **p);
-void			free_lst(t_map *map);
+t_map				*read_map(int fd);
+void				error_nbval(int *x, int i);
+void				error_heigth(char *b);
+void				error_color(char *b);
+void				line(void **param, t_2pos p, t_line *l1, t_line *l2);
+void				win_map(void **p, t_map *map, t_pos init);
+void				redraw(t_env *env);
+void				draw_fdf(t_map *map, void **param);
+int					expose_hook(t_env *env);
+int					key_hook(int keycode, t_env *env);
+int					mouse_hook(int button, int x, int y, t_env *param);
+int					close_hook(void);
+void				pixel_c(t_2pos pt, t_line *l1, t_line *l2, void **p);
+void				free_lst(t_map *map);
+
 #endif

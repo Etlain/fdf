@@ -6,7 +6,7 @@
 /*   By: mmouhssi <mmouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 19:17:24 by mmouhssi          #+#    #+#             */
-/*   Updated: 2016/04/06 17:40:32 by mmouhssi         ###   ########.fr       */
+/*   Updated: 2016/04/26 17:52:31 by mmouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv)
 {
 	t_map	*map;
 	void	**param;
-	int 	fd;
+	int		fd;
 
 	if (argc != 2)
 	{

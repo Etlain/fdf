@@ -27,20 +27,17 @@ MINILIB = -C minilibx_macos/
 
 ML = minilibx_macos/libmlx.a
 
-FRAMEWORK = -framework OpenGL -framework AppKit
+FRAMEWORK = -L/usr/X11/lib -lX11 -lmlx -framework OpenGL -framework AppKit
 
 all: 
 	make $(LIBFT)
-	make $(MINILIB)
-	gcc -o $(NAME) $(addprefix $(PATH_SRC), $(SRC)) $(LIB) $(ML) $(FRAMEWORK)
+	gcc -o $(NAME) $(FLAGS) $(addprefix $(PATH_SRC), $(SRC)) $(LIB) $(FRAMEWORK)
 
 clean :
 	make clean $(LIBFT)
-	make clean $(MINILIB)
 
 fclean:
 	make fclean $(LIBFT)
-	make clean $(MINILIB)
 	rm -rf $(NAME)
 
 re: fclean all
